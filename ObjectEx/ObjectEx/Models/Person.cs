@@ -3,7 +3,6 @@
 public class Person
 {
     public string Name { get; set; }
-
     public int Age { get; set; }
 
     public override string ToString()
@@ -31,24 +30,34 @@ public class Person
         return false;
     }
 
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, Age); // Генерация хэш-кода на основе свойств
+    }
+
     public static bool operator ==(Person a, Person b)
     {
-        if (a.Name == b.Name && a.Age == b.Age)
+        if (a is null)
         {
-            return true;
+            return b is null;
         }
-        
-        return false;
+
+        return a.Equals(b);
     }
 
     public static bool operator !=(Person a, Person b)
     {
-        if (a.Name != b.Name || a.Age != b.Age)
-        {
-            return true;
-        }
+        return !(a == b);
+    }
 
-        return false;
+    public static bool operator <(Person a, Person b)
+    {
+        return a.Age < b.Age; // Сравнение по возрасту
+    }
+
+    public static bool operator >(Person a, Person b)
+    {
+        return a.Age > b.Age; // Сравнение по возрасту
     }
 
 }
